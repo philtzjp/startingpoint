@@ -44,12 +44,4 @@
 
 | skill | 発火タイミング |
 | --- | --- |
-| `issue-branch-pr-flow` | パッチバグフィクス以外の実装作業（Issue 起票・専用ブランチ作成・PR 作成・マージ前確認）時 |
-| `commit-and-git` | コミット・プッシュ・ブランチ作成/切替/削除・マージ・リベース時 |
-| `data-migration` | データマイグレーション（一括変換・スキーマ移行）の設計・実行時 |
-| `api-design` | API エンドポイント（Hono ハンドラ、OpenAPI スキーマ等）の追加・変更時 |
-| `typescript-monorepo` | 新規パッケージ追加・`turbo.json` / `pnpm-workspace.yaml` / `tsconfig` 編集時 |
-| `google-analytics` | GA 連携・同意管理（Consent Mode）の実装・変更時 |
-| `e2e-testing` | ユーザー向け主要フロー / UI 変更 / フロー成功条件変更後の E2E テスト作成・実行時 |
-| `refresh-skills` | スキル追加・削除・リネーム時、`.claude/skills/` のシンボリックリンクや `CLAUDE.md` のスキル表の整合性確認・修復時、上流リポジトリからスキル定義を取り込み直す時 |
-| `issue-model-signature` | GitHub Issue 本体、Issue コメント、PR 本文、PR コメントを書く・更新する時 |
+| `skill-setup` | `philtzjp/skills` から必要なスキルを初期導入・同期・更新し、`.agents/skills` / `.claude/skills` / `AGENTS.md` の採用構成を揃える時 |
