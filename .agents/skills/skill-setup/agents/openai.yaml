@@ -1,4 +1,0 @@
-interface:
-  display_name: "Skill Setup"
-  short_description: "Sync project skills from philtzjp/skills"
-  default_prompt: "Use $skill-setup to sync the required project skills from philtzjp/skills."
