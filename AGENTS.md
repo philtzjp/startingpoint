@@ -44,4 +44,13 @@
 
 | skill | 発火タイミング |
 | --- | --- |
-| `skill-setup` | `philtzjp/skills` から必要なスキルを初期導入・同期・更新し、`.agents/skills` / `.claude/skills` / `AGENTS.md` の採用構成を揃える時 |
+
+## スキル導入
+1. MUST: 初回セットアップ時、および `refresh-skills` 実行時に `philtzjp/skills` リポジトリの `AGENTS.md` を取得する
+2. MUST: 取得した内容に基づき本ファイルのスキル表・スキル運用に関する記述を最新化する; MUST: 本ファイルの「コードルール」「運用ルール」など本リポジトリ固有のセクションは保持する
+3. MUST: `refresh-skills` と `skill-escalation` を必須スキルとして導入する
+4. MUST: プロジェクトの技術スタック・運用ルール・依頼内容に照らし、必要なスキルだけを追加で導入する
+5. NEVER: 上流の全スキルを無条件に取り込まない
+6. MUST: 採用する各スキルについて、上流の `.agents/skills/<skill-name>/SKILL.md` を本リポジトリの同一パスへ配置する
+7. MUST: 各スキルについて `.claude/skills/<skill-name>` を `../../.agents/skills/<skill-name>` への相対シンボリックリンクとして作成する
+8. MUST: 導入完了後、上記スキル表を採用したスキル一覧と一致させる
