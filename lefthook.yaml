@@ -67,8 +67,7 @@ commit-msg:
           exit 1
         fi
 
-        if command -v claude &> /dev/null; then
-          RESULT=$(claude -p "You are a strict commit message linter. Respond with ONLY 'PASS' or 'FAIL: reason in Japanese'.
+        LINT_PROMPT="You are a strict commit message linter. Respond with ONLY 'PASS' or 'FAIL: reason in Japanese'.
 
         Rules:
         - Format: type(scope?): description
@@ -77,13 +76,24 @@ commit-msg:
         - FAIL examples: 'fix: a', 'feat: test', 'fix: update', 'chore: changes', 'feat: asdf', 'fix: hoge', 'refactor: stuff'
         - PASS examples: 'fix: null pointer in login flow', 'feat: add user settings page', 'refactor: extract auth middleware'
 
-        Message: $COMMIT_MSG" 2>/dev/null)
+        Message: $COMMIT_MSG"
 
-          if ! echo "$RESULT" | grep -q "^PASS"; then
-            REASON=$(echo "$RESULT" | sed 's/^FAIL: //' | tr '\n' ' ' | sed 's/  */ /g; s/ *$//')
-            echo "却下 [$COMMIT_MSG] $REASON"
-            exit 1
-          fi
+        RESULT=""
+        if command -v claude &> /dev/null; then
+          RESULT=$(claude -p --model claude-sonnet-5 "$LINT_PROMPT" 2>/dev/null)
+        fi
+
+        if [ -z "$RESULT" ] && command -v codex &> /dev/null; then
+          CODEX_OUTPUT_FILE=$(mktemp)
+          codex exec --output-last-message "$CODEX_OUTPUT_FILE" "$LINT_PROMPT" > /dev/null 2>&1
+          RESULT=$(cat "$CODEX_OUTPUT_FILE" 2>/dev/null)
+          rm -f "$CODEX_OUTPUT_FILE"
+        fi
+
+        if [ -n "$RESULT" ] && ! echo "$RESULT" | grep -q "^PASS"; then
+          REASON=$(echo "$RESULT" | sed 's/^FAIL: //' | tr '\n' ' ' | sed 's/  */ /g; s/ *$//')
+          echo "却下 [$COMMIT_MSG] $REASON"
+          exit 1
         fi
 
         exit 0
