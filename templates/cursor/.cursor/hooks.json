@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "type": "command",
+        "command": "./.cursor/hooks/git-guard.sh",
+        "matcher": "\\bgit\\b|\\bgh\\b",
+        "timeout": 10
+      },
+      {
+        "type": "command",
+        "command": "./.cursor/hooks/signature-guard.py",
+        "matcher": "\\bgh\\b",
+        "timeout": 10
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "type": "command",
+        "command": "./.cursor/hooks/signature-guard.py",
+        "matcher": "issue|pull_request|comment|review",
+        "timeout": 10
+      }
+    ]
+  }
+}

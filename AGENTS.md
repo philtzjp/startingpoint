@@ -6,6 +6,9 @@
 | skill | 発火タイミング |
 | --- | --- |
 
+## Cursor を使う場合（任意）
+Cursor（Agent / Composer / Cloud Agent）を使うリポジトリは `./scripts/install-cursor.sh` を実行して Hook と Cloud Agent 環境定義を導入する。詳細は README を参照。
+
 ## スキル導入
 1. MUST: 初回セットアップ時、および `refresh-skills` 実行時に `philtzjp/skills` リポジトリの `AGENTS.md` を取得する
 2. MUST: 取得した内容に基づき本ファイルのスキル表・スキル運用に関する記述を最新化する; MUST: 本リポジトリ固有の記述があるセクションは保持する
