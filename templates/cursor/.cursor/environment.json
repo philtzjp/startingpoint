@@ -1,0 +1,4 @@
+{
+  "install": "command -v lefthook >/dev/null 2>&1 || npm install -g lefthook; git config --unset-all core.hooksPath 2>/dev/null; lefthook install",
+  "start": "./scripts/refresh-skills.sh"
+}

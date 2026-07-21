@@ -24,6 +24,22 @@ pre-commit:
 
         exit $FAILED
 
+pre-push:
+  commands:
+    fetch-freshness:
+      run: |
+        export LANG=ja_JP.UTF-8
+        export LC_ALL=ja_JP.UTF-8
+
+        GIT_DIR=$(git rev-parse --absolute-git-dir 2>/dev/null)
+        if [ -n "$GIT_DIR" ] && [ -n "$(git remote 2>/dev/null)" ]; then
+          if [ ! -f "$GIT_DIR/FETCH_HEAD" ] || [ -z "$(find "$GIT_DIR/FETCH_HEAD" -mmin -15 2>/dev/null)" ]; then
+            echo "リモートの状態が古い可能性があります。git fetch --prune を実行し、ブランチの乖離・遅れを確認してから push してください"
+            exit 1
+          fi
+        fi
+        exit 0
+
 commit-msg:
   commands:
     semantic-commit-lint:
@@ -38,7 +54,7 @@ commit-msg:
           exit 0
         fi
 
-        VALID_PREFIXES="feat|fix|perf|refactor|docs|style|test|chore|ci|build"
+        VALID_PREFIXES="feat|fix|perf|refactor|docs|style|test|chore|ci|build|merge"
 
         if ! echo "$COMMIT_MSG" | grep -qE "^($VALID_PREFIXES)(\(.+\))?: .+"; then
           echo "コミットメッセージの形式が不正です: type(scope?): description [$COMMIT_MSG]"
