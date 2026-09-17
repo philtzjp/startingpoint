@@ -6,38 +6,42 @@ startingpoint は、Philtz の新規リポジトリを始めるための共通�
 
 > startingpoint is a shared template for starting new Philtz repositories.
 
-AI エージェント向けの作業規約、Claude Code 向けの参照リンク、Git hook、Issue Template、テンプレート利用時の権利帰属の前提をまとめ、リポジトリ作成直後から同じ運用ルールで開発を始められるようにします。
+AI エージェントが作業前に読む手順（`START.md`）、Git hook、Issue Template、テンプレート利用時の権利帰属の前提をまとめ、リポジトリ作成直後から同じ運用ルールで開発を始められるようにします。
 
 ---
+
+## Philtz のリポジトリで開発する人へ
+
+使っているエージェント（Claude Code、Codex、Cursor など）に、次の文章をそのまま貼り付けてください。スキルの導入や Git の注意点は、エージェントが `START.md` を読んで対応します。
+
+```text
+https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl で取得して全文を読み、書かれている手順に従ってください。
+```
 
 ## Features
 
 このテンプレートが提供する内容は以下の通りです。
 
-- `AGENTS.md` による AI エージェント向け作業規約
-- `CLAUDE.md` から `AGENTS.md` へのシンボリックリンク
-- `AGENTS.md` の「スキル導入」による `philtzjp/skills` からの必要スキル導入手順
+- `START.md`：エージェントが作業前に読む手順の正本。スキルの導入と更新、メモリより最新版を優先すること、古いスキルの移行、コミットの記録者の確認、事故を防ぐ要点を定めます
+- `AGENTS.md`：`START.md` の正本を読む案内。`CLAUDE.md` は `AGENTS.md` へのシンボリックリンクです
 - `lefthook.yaml` によるコミット前・push 前・コミットメッセージ検証（`claude -p` を使用し、実行できない場合は `codex exec` にフォールバック）
-- `scripts/refresh-skills.sh` によるスキル表と `.claude/skills/` シンボリックリンクの整合性検査・修復
 - `.github/ISSUE_TEMPLATE.md` / `ISSUE_COMMENT_TEMPLATE.md` / `PULL_REQUEST_TEMPLATE.md` / `RELEASE_TEMPLATE.md` による Issue・PR・Release テンプレート
 - MIT License によるライセンス表示
+
+スキルは [philtzjp/skills](https://github.com/philtzjp/skills) を正本とし、各メンバーのホームに `npx skills` で導入します。リポジトリにはコピーしません。
 
 Cursor を使う場合のみ、オプションで以下を `./scripts/install-cursor.sh` から導入できます（テンプレート本体には含めません）。
 
 - `.cursor/hooks.json` と Hook スクリプト（Git 操作ガード、GitHub 投稿の署名検証）
-- `.cursor/environment.json`（Cursor Cloud Agent 向けの lefthook 導入と起動時スキル検査）
-- リポジトリ固有スキル `cursor-hook-authoring`
+- `.cursor/environment.json`（Cursor Cloud Agent 向けの lefthook 導入と、起動時の `npx skills` によるスキル導入）
 - `AGENTS.md` への Cursor 向け規約（ブランチ運用、環境変数、署名規約）の追記
 
 ## Usage
 
 このリポジトリをテンプレートとして利用する場合は、作成先のリポジトリで以下を確認してください。
 
-- `AGENTS.md` のルールがプロジェクトの実情に合っていること
-- `AGENTS.md` の「スキル導入」に従って `philtzjp/skills` の `AGENTS.md` を取得し、`refresh-skills` と `skill-escalation` を必ず導入すること
-- 必要なスキルだけを `philtzjp/skills` から追加導入すること
-- 導入後の `.agents/skills` の内容が実装予定の技術スタックに合っていること
-- `AGENTS.md` のスキル表が `.agents/skills` 配下の実体と一致していること
+- テンプレートからコピーされた `START.md` を削除すること（正本は本リポジトリの `START.md` で、エージェントは raw URL から読みます）
+- リポジトリ固有の規約があれば `AGENTS.md` の案内の下に書くこと
 - `.github/ISSUE_TEMPLATE.md` の `scope` 例がプロジェクトのディレクトリ構成に合っていること
 - `.github/RELEASE_TEMPLATE.md` の内容がプロジェクトの配布物・リリース運用に合っていること
 - 作成先リポジトリに適用するライセンスや権利表示を必要に応じて見直すこと
@@ -53,7 +57,11 @@ chmod +x scripts/install-cursor.sh
 ./scripts/install-cursor.sh
 ```
 
-導入後は Cursor のワークスペースをリロードし、`commit-and-git` スキルを `philtzjp/skills` から導入してください（`.cursor/hooks/git-guard.sh` が参照する規約です）。
+導入後は Cursor のワークスペースをリロードし、`.cursor/hooks/git-guard.sh` が参照する github スキルと、Hook を扱うときの cursor-hook-authoring スキルをホームに導入してください。
+
+```sh
+DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a cursor -s github -s cursor-hook-authoring -y
+```
 
 参考実装: [artouc/cursor](https://github.com/artouc/cursor)（startingpoint をベースに Cursor 向け構成をすべて有効化したリポジトリ）
 
@@ -66,19 +74,16 @@ chmod +x scripts/install-cursor.sh
 ├── .github/PULL_REQUEST_TEMPLATE.md
 ├── .github/RELEASE_TEMPLATE.md
 ├── scripts/
-│   ├── refresh-skills.sh       # スキル表・シンボリックリンクの整合性検査
 │   └── install-cursor.sh       # Cursor 向けオーバーレイの導入（任意）
 ├── templates/cursor/           # install-cursor.sh が配置する Cursor 向けファイル群
 │   ├── .cursor/
-│   ├── .agents/skills/cursor-hook-authoring/
 │   └── AGENTS.append.md
-├── AGENTS.md
+├── AGENTS.md                   # START.md を読む案内
 ├── CLAUDE.md -> AGENTS.md
+├── START.md                    # エージェントが作業前に読む手順の正本
 ├── LICENSE
 └── lefthook.yaml
 ```
-
-導入したスキルは `.agents/skills/<name>/SKILL.md` に配置し、`.claude/skills/<name>` から `../../.agents/skills/<name>` への相対シンボリックリンクを作成する（`AGENTS.md` の「スキル導入」を参照）。
 
 ## Rights
 
