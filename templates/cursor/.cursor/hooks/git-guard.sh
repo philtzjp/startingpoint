@@ -2,7 +2,7 @@
 # Cursor beforeShellExecution hook: Git 操作ガード
 #
 # エージェントが実行しようとするシェルコマンドを実行前に検査し、
-# commit-and-git スキル / lefthook.yaml の規約に反する Git 操作を
+# github スキル / lefthook.yaml の規約に反する Git 操作を
 # deny（ブロック + 通知）または ask（ユーザー確認）に振り分ける。
 #
 # stdin:  {"command": "...", "cwd": "...", ...}
@@ -64,7 +64,7 @@ fi
 
 # git add . / -A / --all の禁止
 if printf '%s' "$COMMAND" | grep -qE 'git[[:space:]]+add[[:space:]]+(-A([[:space:]]|$)|--all([[:space:]]|$)|\.([[:space:]]|$)|.*[[:space:]]\.([[:space:]]|$))'; then
-  deny "git add . / -A はブロックしました（commit-and-git 規約）" \
+  deny "git add . / -A はブロックしました（github スキルの規約）" \
        "git add . / git add -A は禁止です。コミット対象のファイルをパス指定で明示的に git add してください。"
 fi
 

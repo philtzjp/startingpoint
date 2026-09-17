@@ -1,5 +1,4 @@
 <!-- cursor-overlay-begin -->
-| `cursor-hook-authoring` | Cursor の Hook（`.cursor/hooks.json` / `.cursor/hooks/` 配下スクリプト）を作成・変更・デバッグする時 |
 
 # ブランチ運用
 Cursor Cloud（`cursor/*`）や Claude Code リモートセッション（`claude/*`）は、作業ブランチ名を自動生成する。これらはプラットフォームの管理領域として扱う。
