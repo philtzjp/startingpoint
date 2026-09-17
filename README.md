@@ -26,7 +26,6 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 - `AGENTS.md`：`START.md` の正本を読む案内。`CLAUDE.md` は `AGENTS.md` へのシンボリックリンクです
 - `lefthook.yaml` によるコミット前・push 前・コミットメッセージ検証（`claude -p` を使用し、実行できない場合は `codex exec` にフォールバック）
 - `.github/ISSUE_TEMPLATE.md` / `ISSUE_COMMENT_TEMPLATE.md` / `PULL_REQUEST_TEMPLATE.md` / `RELEASE_TEMPLATE.md` による Issue・PR・Release テンプレート
-- MIT License によるライセンス表示
 
 スキルは [philtzjp/skills](https://github.com/philtzjp/skills) を正本とし、各メンバーのホームに `npx skills` で導入します。リポジトリにはコピーしません。
 
@@ -44,7 +43,7 @@ Cursor を使う場合のみ、オプションで以下を `./scripts/install-cu
 - リポジトリ固有の規約があれば `AGENTS.md` の案内の下に書くこと
 - `.github/ISSUE_TEMPLATE.md` の `scope` 例がプロジェクトのディレクトリ構成に合っていること
 - `.github/RELEASE_TEMPLATE.md` の内容がプロジェクトの配布物・リリース運用に合っていること
-- 作成先リポジトリに適用するライセンスや権利表示を必要に応じて見直すこと
+- 作成先リポジトリに適用するライセンスや権利表示を決め、必要なら `LICENSE` を追加すること（本テンプレートは `LICENSE` を含みません）
 - `lefthook.yaml` の検証内容がチームのコミット運用に合っていること
 - `lefthook install` を実行して git hook を有効化すること
 
@@ -81,15 +80,14 @@ DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a cursor -s github -s cur
 ├── AGENTS.md                   # START.md を読む案内
 ├── CLAUDE.md -> AGENTS.md
 ├── START.md                    # エージェントが作業前に読む手順の正本
-├── LICENSE
 └── lefthook.yaml
 ```
 
 ## Rights
 
-このテンプレート自体は MIT License の下で公開しています。詳細は [LICENSE](LICENSE) を参照してください。
+このテンプレートにはライセンスファイルを含めていません。テンプレートから作成したリポジトリに、意図しないライセンスがそのまま付くのを防ぐためです。
 
-作成先リポジトリ全体に適用するライセンスや権利表示は、そのリポジトリ側で必要に応じて明示してください。
+作成先リポジトリに適用するライセンスや権利表示は、そのリポジトリ側で決めて明示してください。
 
 ## Build with LLM
 
