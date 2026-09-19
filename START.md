@@ -179,6 +179,7 @@ gh api repos/<owner>/<repo>/commits/<sha> --jq '{author: .author.login, committe
 
 詳しくは github スキルに書いてあります。特に事故につながりやすいものを挙げます。
 
+- 作業を始める前に git hook を有効にする。リポジトリに `.githooks/` があれば `git config core.hooksPath .githooks` を実行する。`lefthook.yaml` しかないリポジトリは `lefthook install` を実行する。どちらも clone ごとの設定なので、新しい作業環境では毎回実行する。
 - デフォルトブランチ上で作業を始めない。Issue を起票し、Issue 番号を含むブランチを切り、PR を経由してマージする。
 - 作業前と Git の操作の前に `git fetch --prune` と `git status --short --branch` を実行し、ahead / behind を確認する。
 - 今回の作業に無関係な変更をステージ、コミット、修正しない。`git add .` と `git add -A` を使わない。
