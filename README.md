@@ -22,7 +22,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 - `START.md`：エージェントが作業前に読む手順の正本。スキルの導入と更新、メモリより最新版を優先すること、古いスキルの移行、コミットの記録者の確認、事故を防ぐ要点を定めます
 - `AGENTS.md`：`START.md` の正本を読む案内。`CLAUDE.md` は `AGENTS.md` へのシンボリックリンクです
-- `lefthook.yaml` によるコミット前・push 前・コミットメッセージ検証（`claude -p` を使用し、実行できない場合は `codex exec` にフォールバック）
+- `.githooks/` の pre-commit・pre-push・commit-msg による検証（コミットメッセージの検査は `claude -p` を使用し、実行できない場合は `codex exec` にフォールバック）。`git config core.hooksPath .githooks` で有効になります
 - `.github/ISSUE_TEMPLATE.md` / `ISSUE_COMMENT_TEMPLATE.md` / `PULL_REQUEST_TEMPLATE.md` / `RELEASE_TEMPLATE.md` による Issue・PR・Release テンプレート
 
 スキルは [philtzjp/skills](https://github.com/philtzjp/skills) を正本とし、各メンバーのホームに `npx skills` で導入します。リポジトリにはコピーしません。
@@ -38,21 +38,24 @@ Cursor 向けの `.cursor/hooks.json`、`.cursor/environment.json`、`AGENTS.md`
 - `.github/ISSUE_TEMPLATE.md` の `scope` 例がプロジェクトのディレクトリ構成に合っていること
 - `.github/RELEASE_TEMPLATE.md` の内容がプロジェクトの配布物・リリース運用に合っていること
 - 作成先リポジトリに適用するライセンスや権利表示を決め、必要なら `LICENSE` を追加すること（本テンプレートは `LICENSE` を含みません）
-- `lefthook.yaml` の検証内容がチームのコミット運用に合っていること
-- `lefthook install` を実行して git hook を有効化すること
+- `.githooks/` の検証内容がチームのコミット運用に合っていること
+- `git config core.hooksPath .githooks` を実行して git hook を有効化すること（clone ごとのローカル設定なので、作業環境を作るたびに実行します）
 
 ## Repository Structure
 
 ```text
 .
+├── .githooks/                  # core.hooksPath が指す git hook
+│   ├── commit-msg              # type(scope): 説明 の1行かを検査
+│   ├── pre-commit              # 暗号化されていない .env* の混入を検査
+│   └── pre-push                # リモートの状態が古いまま push するのを防ぐ
 ├── .github/ISSUE_TEMPLATE.md
 ├── .github/ISSUE_COMMENT_TEMPLATE.md
 ├── .github/PULL_REQUEST_TEMPLATE.md
 ├── .github/RELEASE_TEMPLATE.md
 ├── AGENTS.md                   # START.md を読む案内
 ├── CLAUDE.md -> AGENTS.md
-├── START.md                    # エージェントが作業前に読む手順の正本
-└── lefthook.yaml
+└── START.md                    # エージェントが作業前に読む手順の正本
 ```
 
 ## Rights
