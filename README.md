@@ -29,11 +29,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 スキルは [philtzjp/skills](https://github.com/philtzjp/skills) を正本とし、各メンバーのホームに `npx skills` で導入します。リポジトリにはコピーしません。
 
-Cursor を使う場合のみ、オプションで以下を `./scripts/install-cursor.sh` から導入できます（テンプレート本体には含めません）。
-
-- `.cursor/hooks.json` と Hook スクリプト（Git 操作ガード、GitHub 投稿の署名検証）
-- `.cursor/environment.json`（Cursor Cloud Agent 向けの lefthook 導入と、起動時の `npx skills` によるスキル導入）
-- `AGENTS.md` への Cursor 向け規約（ブランチ運用、環境変数、署名規約）の追記
+Cursor 向けの `.cursor/hooks.json`、`.cursor/environment.json`、`AGENTS.md` への追記は、このテンプレートでは扱いません。必要な場合は [artouc/cursor](https://github.com/artouc/cursor) を参照してください。
 
 ## Usage
 
@@ -47,23 +43,6 @@ Cursor を使う場合のみ、オプションで以下を `./scripts/install-cu
 - `lefthook.yaml` の検証内容がチームのコミット運用に合っていること
 - `lefthook install` を実行して git hook を有効化すること
 
-### Cursor を使う場合（任意）
-
-Cursor（Agent / Composer / Cloud Agent）を使うリポジトリだけ、プロジェクトルートで次を実行します。
-
-```sh
-chmod +x scripts/install-cursor.sh
-./scripts/install-cursor.sh
-```
-
-導入後は Cursor のワークスペースをリロードし、`.cursor/hooks/git-guard.sh` が参照する github スキルと、Hook を扱うときの cursor-hook-authoring スキルをホームに導入してください。
-
-```sh
-DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a cursor -s github -s cursor-hook-authoring -y
-```
-
-参考実装: [artouc/cursor](https://github.com/artouc/cursor)（startingpoint をベースに Cursor 向け構成をすべて有効化したリポジトリ）
-
 ## Repository Structure
 
 ```text
@@ -72,11 +51,6 @@ DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a cursor -s github -s cur
 ├── .github/ISSUE_COMMENT_TEMPLATE.md
 ├── .github/PULL_REQUEST_TEMPLATE.md
 ├── .github/RELEASE_TEMPLATE.md
-├── scripts/
-│   └── install-cursor.sh       # Cursor 向けオーバーレイの導入（任意）
-├── templates/cursor/           # install-cursor.sh が配置する Cursor 向けファイル群
-│   ├── .cursor/
-│   └── AGENTS.append.md
 ├── AGENTS.md                   # START.md を読む案内
 ├── CLAUDE.md -> AGENTS.md
 ├── START.md                    # エージェントが作業前に読む手順の正本
