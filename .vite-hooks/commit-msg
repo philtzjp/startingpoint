@@ -23,6 +23,11 @@ if echo "$COMMIT_MSG" | grep -qiE 'Co-Authored-By:'; then
     exit 1
 fi
 
+if echo "$COMMIT_MSG" | grep -qiE 'Claude-Session:|claude\.ai/code|Generated (with|by) Claude Code'; then
+    echo "ツール由来の署名やセッション URL はコミットメッセージに含められません [$COMMIT_MSG]"
+    exit 1
+fi
+
 COMMIT_BODY=$(echo "$COMMIT_MSG" | sed -E "s/^($VALID_PREFIXES)(\([^)]+\))?: //")
 if echo "$COMMIT_BODY" | grep -qE '[()（）\[\]]'; then
     echo "本文にかっこ類は使用できません。スコープ表記 type(scope): は許可 [$COMMIT_MSG]"
