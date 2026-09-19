@@ -1,7 +1,5 @@
 # philtzjp/startingpoint
 
-<img src="https://github.com/philtzjp/.github/blob/main/images/philtz.png?raw=true" width="150px" alt="Philtz Logo">
-
 startingpoint は、Philtz の新規リポジトリを始めるための共通テンプレートです。
 
 > startingpoint is a shared template for starting new Philtz repositories.
