@@ -1,0 +1,4 @@
+# philtzjp/skills から入れるスキル。コミットせず、作業のたびに入れ直す
+.agents/skills/
+.claude/skills/
+skills-lock.json
