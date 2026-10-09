@@ -2,51 +2,67 @@
 
 Philtz のリポジトリで作業するエージェント向けの手順です。上から順に実行してください。
 
-このファイルの正本は https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md です。philtzjp/startingpoint をテンプレートにして作ったリポジトリにある `START.md` は、作成した時点のコピーで古くなっています。コピーは読まず、正本を `curl -fsSL` で取得して読んでください。
+このファイルの正本は https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md です。作業を始めるたびに `curl -fsSL` で取得して読んでください。Web ページを要約して返すツールでは、細かい禁止事項が抜け落ちます。この START.md の内容をメモリに保存しないでください。保存してよいのは「作業を始める前にこのファイルを取得する」という手順だけです。
 
 ユーザーは GitHub に詳しいとは限りません。デプロイ先との連携に必要だからという理由で、仕組みを知らずに使っていることもよくあります。Git の操作はあなたが手順どおりに行い、問題を見つけたら、専門用語を避けて、何が起きていて何をすればよいかを説明してください。
 
-## 1. スキルを最新にする
+## 1. スキルを入れる
 
-作業を始めるたびに行ってください。使うスキルは github、japanese、turborepo の 3 つで、正本は [philtzjp/skills](https://github.com/philtzjp/skills) です。
+スキルの正本は [philtzjp/skills](https://github.com/philtzjp/skills) です。作業するリポジトリの直下に入れ、コミットしません。作業を始めるたびに、リポジトリの直下で実行してください。
 
-導入済みかを確認します。
+- AGENTS.md にスキルを入れるコマンドがあれば、それを実行します。入れるスキルの一覧は、このコマンドの `-s` で表します。
+- なければ、既定の 3 つを入れます。
 
-```sh
-DISABLE_TELEMETRY=1 npx skills list -g
+  ```sh
+  DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
+  ```
+
+入れると、実体が `.agents/skills/<スキル名>/` に置かれ、`.claude/skills/<スキル名>` からシンボリックリンクが張られます。Codex と Cursor は前者を、Claude Code は後者を読みます。同じコマンドをもう一度実行すると、最新の中身で上書きされます。これが更新です。
+
+- `npx skills` ではなく `pnpm dlx skills` を使ってください。`devEngines` で pnpm を求めるリポジトリの中では、`npx` が失敗します。pnpm がなければ、ユーザーに報告して指示を待ってください。
+- `skills experimental_install` は使わないでください。`.claude/skills` のリンクを作らないので、Claude Code からスキルが見えません。
+- 入れたら、github、japanese、turborepo の SKILL.md を `.agents/skills/<スキル名>/SKILL.md` から最後まで読んでから作業してください。
+- 入れられなければ、推測で進めず、ユーザーに報告して指示を待ってください。
+
+### gitignore
+
+入れたスキルはコミットしません。`.gitignore` に次がなければ、追加をユーザーに提案してください。追加は github スキルの手順で PR にします。
+
+```gitignore
+.agents/skills/
+.claude/skills/
+skills-lock.json
 ```
 
-- 3 つとも Source が philtzjp/skills なら、更新します。
+リポジトリ固有のスキルをコミットしているリポジトリでは、ディレクトリごと無視すると固有のスキルまで無視されます。中身を無視して、固有のスキルだけを戻してください。
 
-  ```sh
-  DISABLE_TELEMETRY=1 npx skills update github japanese turborepo -g -y
-  ```
+```gitignore
+.agents/skills/*
+!.agents/skills/<固有のスキル名>/
+.claude/skills/*
+!.claude/skills/<固有のスキル名>
+skills-lock.json
+```
 
-- 入っていないスキルがあるか、Source が philtzjp/skills 以外なら、ユーザーの許可を得てから導入します。Source が違うものは、先に `npx skills remove -g -y <スキル名>` で外してください。
+`skills-lock.json` で版を固定しません。スキルは常に最新を使います。
 
-  ```sh
-  DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
-  ```
+## 2. ホームに入れたスキルを外す
 
-導入すると、実体が `~/.agents/skills/<スキル名>/` に置かれ、`~/.claude/skills/<スキル名>` からシンボリックリンクが張られます。Codex と Cursor は前者を、Claude Code は後者を読みます。
+以前は、スキルをホームに入れていました。ホームとリポジトリに同じスキルがあると、どちらを読んだのかが紛らわしくなります。リポジトリの外で次を実行し、Source が philtzjp/skills のスキルが残っていないか確認してください。
 
-- 導入や更新が終わったら、3 つの SKILL.md を最後まで読んでから作業してください。導入した直後のセッションでは自動で読み込まれないことがあるので、`~/.agents/skills/<スキル名>/SKILL.md` を直接読んでください。
-- 導入も更新もできなければ、推測で進めず、ユーザーに報告して指示を待ってください。
-- スキルを作業対象リポジトリにコピーしないでください。コピーした時点から古くなります。
+```sh
+DISABLE_TELEMETRY=1 pnpm dlx skills list -g
+```
 
-## 2. メモリより最新版を優先する
+残っていれば、ユーザーの許可を得てから外します。
 
-エージェントのメモリや過去の会話に誤った手順が残っていると、同じ誤りを何度も繰り返してしまいます。
-
-- この START.md とスキルは、作業を始めるたびに取得し直してください。前回読んだ内容やメモリで済ませないでください。
-- 取得には `curl -fsSL` を使ってください。Web ページを要約して返すツールでは、細かい禁止事項が抜け落ちます。
-- メモリや過去の会話の手順が最新版と食い違ったら、最新版に従ってください。食い違っていたメモリは、どこがどう違うかをユーザーに伝え、更新か削除を提案してください。許可なしにメモリを書き換えないでください。
-- この START.md やスキルの内容をメモリに保存しないでください。保存してよいのは「作業を始める前に https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を取得する」という手順だけです。
-- 会話が長くなってコンテキストが要約されたら、Git の操作を続ける前にもう一度取得してください。
+```sh
+DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
+```
 
 ## 3. 古いスキルより新しいスキルを優先する
 
-作業対象リポジトリの `.agents/skills/` や `.claude/skills/` に、次のスキルが残っていることがあります。いずれも philtzjp/skills で統合済みの古いスキルです。
+次のスキルは、philtzjp/skills で統合済みか、アーカイブ済みです。
 
 | 古いスキル | 代わりに使うスキル |
 | --- | --- |
@@ -57,42 +73,15 @@ DISABLE_TELEMETRY=1 npx skills list -g
 | data-migration | db |
 | e2e-testing | e2etest |
 | google-analytics | analytics |
+| refresh-skills、skill-selection、skill-escalation | アーカイブ済み。代わりはなく、この START.md に従う |
 
 - 古いスキルと新しいスキルが食い違ったら、新しいスキルに従ってください。
-- 古いスキルを見つけたら、削除をユーザーに提案してください。移行の手順は 4 にあります。
-- 作業対象リポジトリに refresh-skills、skill-selection、skill-escalation が残っていても、その手順には従わないでください。スキルの操作は 4 のとおり `npx skills` で行います。
+- 古いスキルを入れないでください。
+- アーカイブ済みのスキルの手順には従わないでください。
 
-作業対象リポジトリに CLAUDE.md、AGENTS.md、CONTRIBUTING.md などがあれば読んでください。そのリポジトリ固有の規約は、上の古いスキルを除いて、スキルより優先します。食い違いがあったらユーザーに伝えてください。
+### リポジトリに残った写しを移行する
 
-## 4. スキルを追加する、外す、移行する
-
-スキルの操作はすべて `npx skills` で行ってください。refresh-skills や skill-selection などのメタスキルを導入する必要はありません。
-
-### 追加する、外す
-
-philtzjp/skills にあるスキルの一覧は次で確認できます。
-
-```sh
-DISABLE_TELEMETRY=1 npx skills add philtzjp/skills --list
-```
-
-- hono、db、e2etest、analytics、errorpage などは、実際にその作業をするときに追加します。「いつか使うかもしれない」段階では入れません。ユーザーの許可を得てから実行してください。
-
-  ```sh
-  DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a claude-code -a codex -a cursor -s <スキル名> -y
-  ```
-
-- 使わなくなったスキルは、ユーザーの許可を得てから外します。github、japanese、turborepo は外さないでください。
-
-  ```sh
-  DISABLE_TELEMETRY=1 npx skills remove -g -y <スキル名>
-  ```
-
-- 3 の表にある古いスキルは導入しないでください。
-
-### 作業対象リポジトリに残ったコピーを移行する
-
-`.agents/skills/` や `.claude/skills/` に philtzjp/skills と同じ名前のスキルがあれば、次の手順で移行を提案してください。移行は github スキルの手順で PR にします。ユーザーの確認なしに削除しないでください。
+`.agents/skills/` や `.claude/skills/` に、philtzjp/skills と同じ名前のスキルがコミットされていることがあります。見つけたら、次の手順で移行を提案してください。移行は github スキルの手順で PR にします。ユーザーの確認なしに削除しないでください。
 
 1. 上流と中身を比べます。
 
@@ -100,89 +89,63 @@ DISABLE_TELEMETRY=1 npx skills add philtzjp/skills --list
    curl -fsSL https://raw.githubusercontent.com/philtzjp/skills/main/.agents/skills/<スキル名>/SKILL.md | diff - .agents/skills/<スキル名>/SKILL.md
    ```
 
-   違いがあれば、削除する前にユーザーに見せてください。他のリポジトリでも役立つ改変なら、下の手順で philtzjp/skills に提案します。そのリポジトリだけの事情なら、AGENTS.md に規約として書きます。
+   違いがあれば、削除する前にユーザーに見せてください。他のリポジトリでも役立つ改変なら、4 の手順で philtzjp/skills に提案します。そのリポジトリだけの事情なら、AGENTS.md に規約として書きます。
 
-2. 必要なスキルが `npx skills` でホームに入っていることを確認します。古いスキルなら、3 の表の代わりのスキルを入れます。
-3. コピー（`.agents/skills/<スキル名>/`）、`.claude/skills/<スキル名>` のリンク、AGENTS.md や CLAUDE.md のスキル表の行、コピーや同期を前提にした記述を削除します。philtzjp/skills にない、そのリポジトリ固有のスキルは残します。
-4. `scripts/refresh-skills.sh` や `.cursor/environment.json` の `start` のように、スキルをコピーしたり同期したりする仕組みがあれば、`npx skills` に置き換えます。Cursor Cloud Agent は起動のたびにホームが空になるので、`start` でスキルを導入します。
+2. コミットされた写し、`.claude/skills/` のリンク、AGENTS.md のスキル表の行、写しや同期を前提にした記述を削除します。philtzjp/skills にない、そのリポジトリ固有のスキルは残します。
+3. `scripts/refresh-skills.sh` や `.cursor/environment.json` の `start` のように、スキルを写したり同期したりする仕組みがあれば、1 のコマンドに置き換えます。Cursor のクラウドのエージェントは起動のたびに環境が空になるので、`start` でスキルを入れます。
 
    ```json
    {
-     "start": "DISABLE_TELEMETRY=1 npx skills add philtzjp/skills -g -a cursor -s github -s japanese -s turborepo -y"
+     "start": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a cursor -s github -s japanese -s turborepo -y"
    }
    ```
 
-5. 5 の案内を AGENTS.md に入れます。
+4. gitignore と AGENTS.md の案内を、1 と 5 のとおりにします。
 
-### スキルの改良を提案する
+## 4. スキルを足す、改良を提案する
 
-- ホームに導入したスキル（`~/.agents/skills/`）は直接編集しないでください。`npx skills update` で上書きされ、他のメンバーにも届きません。
+philtzjp/skills にあるスキルの一覧は次で確認できます。
+
+```sh
+DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills --list
+```
+
+- hono、db、e2etest、analytics、errorpage などは、実際にその作業をするときに足します。「いつか使うかもしれない」段階では入れません。ユーザーの許可を得てから、1 のコマンドに `-s <スキル名>` を足して実行してください。
+- そのリポジトリでいつも使うなら、AGENTS.md のコマンドに `-s <スキル名>` を足す PR を出します。
+- 入れたスキルを直接編集しないでください。次に入れたときに上書きされ、他のメンバーにも届きません。
 - スキルと違うやり方をとるなら、理由をユーザーに説明し、合意を得てから進めてください。
-- 他のメンバーや他の作業にも役立つ改良なら、ユーザーの許可を得て philtzjp/skills に Issue を起票します。同じ内容の Issue があれば、そこにコメントします。
-  - タイトルは `type(スキル名): 動作で終わる短い日本語`。type は feat、fix、perf、refactor のいずれか。
-  - 本文の先頭に `✳︎ <会社名> <モデル名> <バージョン>` の署名行を入れ、1 行空けて「背景」「作業範囲」「完了条件」「備考」を書く。
+- 他のメンバーや他の作業にも役立つ改良なら、ユーザーの許可を得て philtzjp/skills に Issue を起票します。同じ内容の Issue があれば、そこにコメントします。書式は github スキルに従います。
 - この START.md の手順についての提案は、philtzjp/startingpoint に起票します。
 
-## 5. 作業対象リポジトリに案内を置く
+## 5. AGENTS.md に案内を置く
 
 作業対象リポジトリの AGENTS.md に次の案内がなければ、追加をユーザーに提案してください。一度入れておけば、次からはユーザーがこの手順を貼り付けなくても、エージェントが自分で読みます。
 
-```markdown
+````markdown
 ## 開発ルール
 
 作業を始める前に、https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl で取得して全文を読み、書かれている手順に従ってください。
+
+スキルは、リポジトリの直下で次を実行して入れます。
+
+```sh
+DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
 ```
+````
 
 - AGENTS.md がなければ作成します。
-- CLAUDE.md がなければ、AGENTS.md へのシンボリックリンクとして作成します。CLAUDE.md が既にあれば、同じ案内を追記します。
-- philtzjp/startingpoint から作ったリポジトリには、最初からこの案内が入っています。テンプレートからコピーされた `START.md` は不要なので、削除を提案してください。
+- CLAUDE.md は作りません。Claude Code は v2.1.277 から、CLAUDE.md がなければ AGENTS.md を読みます。
+- CLAUDE.md が AGENTS.md へのシンボリックリンクなら、削除を提案します。CLAUDE.md が別のファイルなら、Claude Code はそちらを優先して読むので、同じ案内を追記します。
+- Bedrock、Vertex、Foundry 経由の Claude Code は、まだ AGENTS.md を読みません。これらを使うメンバーがいるリポジトリでは、CLAUDE.md のリンクを残します。
+- テンプレートから写された `START.md` がリポジトリにあれば、削除を提案します。正本はこのファイルです。
 - 追加や削除は github スキルの手順で PR にします。
 
-## 6. コミットが誰のものか正しく記録されるようにする
+## 6. あとは github スキルに従う
 
-GitHub は、コミットに記録されたメールアドレスで、どのアカウントの変更かを判断します。名前は判断に使いません。GitHub に登録していないアドレスでコミットすると、アイコンが灰色になり、誰の変更か追えなくなります。
+Git と GitHub の操作は、github スキルに従ってください。最初にコミットする前に、次の項を必ず読んでください。
 
-コミットには author（変更を書いた人）と committer（コミットを作った人）のアドレスが別々に記録され、それぞれ別に判断されます。片方だけ灰色になることもあります。
+- 最新の規約を優先する: メモリや過去の会話より、最新のスキルを優先する
+- 開始前: git hook を有効にする
+- author と committer: コミットが誰のものか正しく記録されるよう、アドレスを確認する
 
-最初にコミットする前に、設定を確認してください。
-
-```sh
-git config --show-origin user.name
-git config --show-origin user.email
-env | grep -E '^GIT_(AUTHOR|COMMITTER)_'
-```
-
-- user.email が未設定、または `root@...` や `...@localhost`、`....local` のような自動生成のアドレスなら、コミットしないでください。ユーザーに状況を伝え、設定を相談してください。
-- リポジトリ単位の設定や環境変数がグローバル設定を上書きしていないか、`--show-origin` の出力で確かめてください。CI、Docker、devcontainer、クラウドのエージェント環境では設定が入っていないことがよくあります。
-- ユーザーの許可なしに git config を書き換えないでください。
-- どのアドレスを使うか迷っていたら、GitHub が発行する noreply アドレスを提案してください。必ずアカウントに紐づき、個人のメールアドレスを公開せずに済みます。GitHub の Settings → Emails で確認でき、gh が使えるなら次のコマンドでも取得できます。
-
-  ```sh
-  gh api user --jq '"\(.id)+\(.login)@users.noreply.github.com"'
-  ```
-
-rebase、cherry-pick、`commit --amend` を実行すると、author はそのまま残り、committer は実行した環境の設定に置き換わります。実行したあとは両方を確認してください。
-
-```sh
-git log --format='%h author=%an <%ae> committer=%cn <%ce>' -10
-```
-
-push したあとは、GitHub 上でアカウントに紐づいたかを確認してください。null になっている側が灰色のアイコンです。
-
-```sh
-gh api repos/<owner>/<repo>/commits/<sha> --jq '{author: .author.login, committer: .committer.login}'
-```
-
-灰色になっていたら、原因と直し方をユーザーに説明してください。使ったアドレスを GitHub の Settings → Emails に追加して確認を済ませれば、過去のコミットにもさかのぼって紐づきます。履歴を書き換えて直そうとしないでください。
-
-## 7. コードを壊さないために
-
-詳しくは github スキルに書いてあります。特に事故につながりやすいものを挙げます。
-
-- 作業を始める前に git hook を有効にする。リポジトリに `.vite-hooks/` があれば `git config core.hooksPath .vite-hooks` を実行する。`lefthook.yaml` しかないリポジトリは `lefthook install` を実行する。どちらも clone ごとの設定なので、新しい作業環境では毎回実行する。
-- デフォルトブランチ上で作業を始めない。Issue を起票し、Issue 番号を含むブランチを切り、PR を経由してマージする。
-- 作業前と Git の操作の前に `git fetch --prune` と `git status --short --branch` を実行し、ahead / behind を確認する。
-- 今回の作業に無関係な変更をステージ、コミット、修正しない。`git add .` と `git add -A` を使わない。
-- ユーザーの承認なしに `git pull`、`git rebase`、force push、ブランチの切り替えや削除をしない。
-- `--no-verify` で hook を迂回しない。レビューや CI を迂回してマージしない。
-- 判断に迷ったら作業を止め、ユーザーに確認する。
+判断に迷ったら作業を止め、ユーザーに確認してください。
