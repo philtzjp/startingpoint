@@ -11,11 +11,13 @@ Philtz のリポジトリで作業するエージェント向けの手順です�
 スキルの正本は [philtzjp/skills](https://github.com/philtzjp/skills) です。作業するリポジトリの直下に入れ、コミットしません。作業を始めるたびに、リポジトリの直下で実行してください。
 
 - AGENTS.md にスキルを入れるコマンドがあれば、それを実行します。入れるスキルの一覧は、このコマンドの `-s` で表します。
-- なければ、既定の 3 つを入れます。
+- なければ、既定の 4 つを入れます。
 
   ```sh
-  DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
+  DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
   ```
+
+conventions は、commit-msg hook が呼ぶ書式の検査器です。入れていないと、hook がコミットを止めます。
 
 入れると、実体が `.agents/skills/<スキル名>/` に置かれ、`.claude/skills/<スキル名>` からシンボリックリンクが張られます。Codex と Cursor は前者を、Claude Code は後者を読みます。同じコマンドをもう一度実行すると、最新の中身で上書きされます。これが更新です。
 
@@ -96,7 +98,7 @@ DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
 
    ```json
    {
-     "start": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a cursor -s github -s japanese -s turborepo -y"
+     "start": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a cursor -s github -s japanese -s turborepo -s conventions -y"
    }
    ```
 
@@ -129,7 +131,7 @@ DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills --list
 スキルは、リポジトリの直下で次を実行して入れます。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
+DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
 ```
 ````
 

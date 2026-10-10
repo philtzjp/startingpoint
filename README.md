@@ -27,7 +27,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 - `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れるコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
 - `.gitignore`: リポジトリごとに入れたスキルをコミットしない設定
-- `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`git config core.hooksPath .vite-hooks` で有効になります
+- `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`git config core.hooksPath .vite-hooks` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
 
 ## Usage
 
@@ -53,7 +53,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 ```text
 .
 ├── .vite-hooks/
-│   ├── commit-msg   # type(scope): 説明 の 1 行か、署名の混入がないかを検査
+│   ├── commit-msg   # conventions スキルの検査器で、コミットメッセージを正本の規約で検査
 │   ├── pre-commit   # 暗号化されていない .env* の混入を検査
 │   └── pre-push     # リモートの状態が古いまま push するのを防ぐ
 ├── .gitignore       # リポジトリごとに入れたスキルを無視する

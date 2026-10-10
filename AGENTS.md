@@ -5,5 +5,5 @@
 スキルは、リポジトリの直下で次を実行して入れます。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -y
+DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
 ```
