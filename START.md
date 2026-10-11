@@ -149,7 +149,6 @@ commit-msg hook は、conventions スキルの検査器を呼び、philtzjp/.git
 作業対象リポジトリの commit-msg hook を確かめてください。
 
 - `.vite-hooks/commit-msg`、`.githooks/commit-msg`、`lefthook.yaml` の commit-msg のどれかがあり、`.agents/skills/conventions/cli.mjs` を呼んでいなければ、古い hook です。
-- `packages/conventions` の検査器を呼んでいるリポジトリは、置き換えません。philtzjp/organizer-bot のように、検査器そのものを持つリポジトリです。
 - リポジトリに `.github/conventions.yml` があっても、置き換えてかまいません。検査器はそのファイルを優先して読みます。
 
 古い hook を見つけたら、ユーザーに伝え、次の手順で直す PR を提案してください。直すのはユーザーの許可を得てからで、github スキルの手順で PR にします。
