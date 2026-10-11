@@ -11,7 +11,7 @@ startingpoint は、Philtz の新規リポジトリを始めるための共通�
 | エージェントが作業前に読む手順 | このリポジトリの `START.md` |
 | Git と GitHub の規約、日本語の書き方など | [philtzjp/skills](https://github.com/philtzjp/skills) のスキル |
 | Issue と PR のテンプレート | [philtzjp/.github](https://github.com/philtzjp/.github) の org の既定 |
-| Issue、PR、コミットメッセージの書式 | [philtzjp/pulumi](https://github.com/philtzjp/pulumi) の `.github/conventions.yml` |
+| Issue、PR、コミットメッセージの書式 | [philtzjp/.github](https://github.com/philtzjp/.github) の `conventions.yml` |
 
 ---
 

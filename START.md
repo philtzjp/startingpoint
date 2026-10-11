@@ -144,17 +144,17 @@ DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex 
 
 ## 6. commit-msg hook を検査器を呼ぶ形にする
 
-commit-msg hook は、conventions スキルの検査器を呼び、philtzjp/pulumi の `.github/conventions.yml` にある正本の規約で検査します。以前のテンプレートから作ったリポジトリには、規約を hook の中に書き写した古い hook が残っています。古い hook は正本とずれていて、scope のないメッセージのように規約に反するものを通します。
+commit-msg hook は、conventions スキルの検査器を呼び、philtzjp/.github の `conventions.yml` にある正本の規約で検査します。以前のテンプレートから作ったリポジトリには、規約を hook の中に書き写した古い hook が残っています。古い hook は正本とずれていて、scope のないメッセージのように規約に反するものを通します。
 
 作業対象リポジトリの commit-msg hook を確かめてください。
 
 - `.vite-hooks/commit-msg`、`.githooks/commit-msg`、`lefthook.yaml` の commit-msg のどれかがあり、`.agents/skills/conventions/cli.mjs` を呼んでいなければ、古い hook です。
-- `packages/conventions` の検査器を呼んでいるリポジトリは、置き換えません。philtzjp/pulumi のように、規約の正本と検査器そのものを持つリポジトリです。
+- `packages/conventions` の検査器を呼んでいるリポジトリは、置き換えません。philtzjp/organizer-bot のように、検査器そのものを持つリポジトリです。
 - リポジトリに `.github/conventions.yml` があっても、置き換えてかまいません。検査器はそのファイルを優先して読みます。
 
 古い hook を見つけたら、ユーザーに伝え、次の手順で直す PR を提案してください。直すのはユーザーの許可を得てからで、github スキルの手順で PR にします。
 
-1. 古い hook にあって正本の規約にない規則がないか、hook の中身を読んで確かめます。あれば、消す前にユーザーに見せてください。他のリポジトリでも要る規則なら、philtzjp/pulumi の `.github/conventions.yml` を直す Issue を起票します。そのリポジトリだけの規則なら、扱いをユーザーと相談します。hook に規則を書き足して残さないでください。
+1. 古い hook にあって正本の規約にない規則がないか、hook の中身を読んで確かめます。あれば、消す前にユーザーに見せてください。他のリポジトリでも要る規則なら、philtzjp/.github の `conventions.yml` を直す Issue を起票します。そのリポジトリだけの規則なら、扱いをユーザーと相談します。hook に規則を書き足して残さないでください。
 2. 正本の hook を取得して置き換えます。
 
    ```sh
