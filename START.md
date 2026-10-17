@@ -10,8 +10,9 @@ Philtz のリポジトリで作業するエージェント向けの手順です�
 
 スキルの正本は [philtzjp/skills](https://github.com/philtzjp/skills) です。作業するリポジトリの直下に入れ、コミットしません。作業を始めるたびに、リポジトリの直下で実行してください。
 
-- AGENTS.md にスキルを入れるコマンドがあれば、それを実行します。入れるスキルの一覧は、このコマンドの `-s` で表します。
-- なければ、既定の 4 つを入れます。
+- `package.json` に `skills` のスクリプトがあれば、`pnpm run skills` を実行します。入れるスキルの一覧は、このスクリプトの `-s` で表します。`pnpm install` の `postinstall` からも呼ばれるので、`pnpm install` をしたあとなら入っています。
+- なければ、AGENTS.md にスキルを入れるコマンドがあれば、それを実行します。
+- どちらもなければ、既定の 4 つを入れます。
 
   ```sh
   DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y

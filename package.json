@@ -1,0 +1,7 @@
+{
+    "private": true,
+    "scripts": {
+        "skills": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y",
+        "postinstall": "[ -n \"$CI\" ] || [ ! -e .git ] || pnpm run skills || true"
+    }
+}

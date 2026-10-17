@@ -25,7 +25,8 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 ## Features
 
-- `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れるコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
+- `package.json`: スキルを入れるコマンドを `skills` に置き、`postinstall` から呼ぶ。`pnpm install` のたびにスキルが最新になる。CI の中と `.git` のない場所では動かさない
+- `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れ直すコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
 - `.gitignore`: リポジトリごとに入れたスキルをコミットしない設定
 - `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`git config core.hooksPath .vite-hooks` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
 
@@ -33,7 +34,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 新しいリポジトリは philtzjp/pulumi の宣言から作ります。このテンプレートから作ったリポジトリでは、次を確認してください。
 
-- 入れるスキルを足すときは、`AGENTS.md` のコマンドに `-s <スキル名>` を足すこと
+- 入れるスキルを足すときは、`package.json` の `skills` に `-s <スキル名>` を足すこと。`pnpm init` は使わず、このファイルに依存を足していくこと
 - リポジトリ固有の規約があれば、`AGENTS.md` の案内の下に書くこと
 - リポジトリ固有のスキルをコミットするときは、`.gitignore` を次のように書き換え、固有のスキルだけを戻すこと
 
@@ -57,7 +58,8 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 │   ├── pre-commit   # 暗号化されていない .env* の混入を検査
 │   └── pre-push     # リモートの状態が古いまま push するのを防ぐ
 ├── .gitignore       # リポジトリごとに入れたスキルを無視する
-├── AGENTS.md        # START.md を読む案内と、スキルを入れるコマンド
+├── AGENTS.md        # START.md を読む案内と、スキルを入れ直すコマンド
+├── package.json     # skills にスキルを入れるコマンド。postinstall から呼ぶ
 ├── README.md
 └── START.md         # エージェントが作業前に読む手順の正本。テンプレートから作るときには写さない
 ```
