@@ -2,3 +2,6 @@
 .agents/skills/
 .claude/skills/
 skills-lock.json
+
+# pnpm install で入る依存
+node_modules/
