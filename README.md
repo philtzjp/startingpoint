@@ -25,7 +25,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 ## Features
 
-- `package.json`: スキルを入れるコマンドを `skills` に置き、`postinstall` から呼ぶ。`vp install` のたびにスキルが最新になる。`prepare` で `vp config` を呼び、git hook を有効にする。どちらも CI の中と `.git` のない場所では動かさない
+- `package.json`: スキルを入れるコマンドを `skills` に置き、`postinstall` から呼ぶ。`vp install` のたびにスキルが最新になる。`postinstall` は CI の中と `.git` のない場所では動かさない。`prepare` で `vp config` を呼び、git hook を有効にする
 - `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れ直すコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
 - `.gitignore`: リポジトリごとに入れたスキルをコミットしない設定
 - `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`vp install` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
@@ -59,8 +59,8 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 .
 ├── .vite-hooks/
 │   ├── commit-msg      # conventions スキルの検査器で、コミットメッセージを正本の規約で検査
-│   ├── pre-commit      # 暗号化されていない .env* の混入を検査し、vp staged で整形
-│   └── pre-push        # リモートの状態が古いまま push するのを防ぎ、vp check と fallow で検査
+│   ├── pre-commit      # vp staged で整形
+│   └── pre-push        # vp check と fallow で検査
 ├── .fallowrc.jsonc     # fallow の設定
 ├── .gitignore          # リポジトリごとに入れたスキルを無視する
 ├── AGENTS.md           # START.md を読む案内と、スキルを入れ直すコマンド

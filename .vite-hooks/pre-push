@@ -1,19 +1,2 @@
-#!/bin/sh
-# リモートの状態が古いまま push するのを防ぐ。
-
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-# core.hooksPath を .vite-hooks に直接向けた場合も vp と fallow を見つけられるようにする
-PATH="$(git rev-parse --show-toplevel)/node_modules/.bin:$PATH"
-
-GIT_DIR_PATH=$(git rev-parse --absolute-git-dir 2>/dev/null)
-if [ -n "$GIT_DIR_PATH" ] && [ -n "$(git remote 2>/dev/null)" ]; then
-    if [ ! -f "$GIT_DIR_PATH/FETCH_HEAD" ] || [ -z "$(find "$GIT_DIR_PATH/FETCH_HEAD" -mmin -15 2>/dev/null)" ]; then
-        echo "リモートの状態が古い可能性があります。git fetch --prune を実行し、ブランチの乖離・遅れを確認してから push してください"
-        exit 1
-    fi
-fi
-
-# 型、lint、整形と、未使用コードや依存などの検査を通してから push する
-vp check || exit 1
-exec fallow
+vp check
+vp exec fallow
