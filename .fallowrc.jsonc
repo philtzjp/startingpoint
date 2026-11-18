@@ -11,6 +11,7 @@
       "name": "vite-plus",
       "enablers": ["vite-plus"],
       "entryPoints": ["vite.config.ts"],
+      "toolingDependencies": ["eslint-plugin-no-comments"],
     },
   ],
   "audit": { "gate": "all" },
