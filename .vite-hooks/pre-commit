@@ -1,1 +1,22 @@
+EXPECTED='#/-------------------[DOTENV_PUBLIC_KEY]--------------------/'
+FAILED=0
+
+while IFS= read -r file; do
+    case "$(basename "$file")" in
+        .env*) [ -f "$file" ] || continue ;;
+        *) continue ;;
+    esac
+    case "$(head -n 1 "$file")" in
+        "$EXPECTED"*) ;;
+        *)
+            echo "$file の1行目が暗号化ヘッダで始まっていません。暗号化されていない環境変数が混入している可能性があります。dotenvx encrypt で暗号化してください"
+            FAILED=1
+            ;;
+    esac
+done <<EOF_FILES
+$(git diff --cached --name-only --diff-filter=ACM)
+EOF_FILES
+
+[ "$FAILED" -eq 0 ] || exit 1
+
 vp staged
