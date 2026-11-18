@@ -163,8 +163,6 @@ commit-msg hook は、conventions スキルの検査器を呼び、philtzjp/.git
    vp config
    ```
 
-   `core.hooksPath` が `.vite-hooks` などに設定されたままだと、`vp config` は hook の振り分けを入れずに終わります。先に設定を外すのはそのためです。
-
    hook を `.githooks/` に置いているリポジトリでは、`.vite-hooks/` に移します。参照している README や AGENTS.md の記述も直してください。lefthook のリポジトリでは、`lefthook.yaml` の commit-msg の `run` を `node .agents/skills/conventions/cli.mjs commit-msg {1}` にします。
 
 3. AGENTS.md のスキルを入れるコマンドに `-s conventions` を足し、実行して検査器を入れます。
