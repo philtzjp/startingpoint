@@ -59,7 +59,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 .
 ├── .vite-hooks/
 │   ├── commit-msg      # conventions スキルの検査器で、コミットメッセージを正本の規約で検査
-│   ├── pre-commit      # vp staged でコミットするファイルを検査
+│   ├── pre-commit      # 暗号化されていない .env* の混入を検査し、vp staged でコミットするファイルを検査
 │   └── pre-push        # vp run verify で vp check と fallow を実行
 ├── .fallowrc.jsonc     # fallow の設定
 ├── .gitignore          # リポジトリごとに入れたスキルを無視する
