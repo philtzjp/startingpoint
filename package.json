@@ -1,7 +1,23 @@
 {
-    "private": true,
-    "scripts": {
-        "skills": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y",
-        "postinstall": "[ -n \"$CI\" ] || [ ! -e .git ] || pnpm run skills || true"
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "[ -n \"$CI\" ] || [ ! -e .git ] || vp config",
+    "skills": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y",
+    "postinstall": "[ -n \"$CI\" ] || [ ! -e .git ] || pnpm run skills || true"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.6",
+    "fallow": "3.43.2",
+    "fallow-type-aware": "3.43.2",
+    "typescript": "7.0.2",
+    "vite-plus": "1.7.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.21.0",
+      "onFail": "download"
     }
+  }
 }
