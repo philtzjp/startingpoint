@@ -1,11 +1,3 @@
-#!/bin/sh
-# コミットメッセージを Philtz の規約で検査する。
-# 検査器と規約は philtzjp/skills の conventions スキルにある。規約の正本は philtzjp/.github の conventions.yml、検査器の正本は philtzjp/organizer-bot。
-# ここに規則を書き足さない。規約を変えるときは philtzjp/.github の conventions.yml を直す
-
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-
 CLI=.agents/skills/conventions/cli.mjs
 
 if [ ! -f "$CLI" ]; then
@@ -13,4 +5,4 @@ if [ ! -f "$CLI" ]; then
     exit 1
 fi
 
-exec node "$CLI" commit-msg "$1"
+vpx "$CLI" commit-msg "$1"

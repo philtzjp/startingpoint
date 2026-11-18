@@ -1,9 +1,3 @@
-#!/bin/sh
-# リモートの状態が古いまま push するのを防ぐ。
-
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-
 GIT_DIR_PATH=$(git rev-parse --absolute-git-dir 2>/dev/null)
 if [ -n "$GIT_DIR_PATH" ] && [ -n "$(git remote 2>/dev/null)" ]; then
     if [ ! -f "$GIT_DIR_PATH/FETCH_HEAD" ] || [ -z "$(find "$GIT_DIR_PATH/FETCH_HEAD" -mmin -15 2>/dev/null)" ]; then
@@ -12,4 +6,4 @@ if [ -n "$GIT_DIR_PATH" ] && [ -n "$(git remote 2>/dev/null)" ]; then
     fi
 fi
 
-exit 0
+vp run verify

@@ -1,9 +1,3 @@
-#!/bin/sh
-# 暗号化されていない .env* がコミットに混入していないかを検査する。
-
-export LANG=ja_JP.UTF-8
-export LC_ALL=ja_JP.UTF-8
-
 EXPECTED='#/-------------------[DOTENV_PUBLIC_KEY]--------------------/'
 FAILED=0
 
@@ -30,4 +24,6 @@ done <<INNER
 $(git diff --cached --name-only --diff-filter=ACM)
 INNER
 
-exit $FAILED
+[ "$FAILED" -eq 0 ] || exit 1
+
+vp staged

@@ -10,19 +10,19 @@ Philtz のリポジトリで作業するエージェント向けの手順です�
 
 スキルの正本は [philtzjp/skills](https://github.com/philtzjp/skills) です。作業するリポジトリの直下に入れ、コミットしません。作業を始めるたびに、リポジトリの直下で実行してください。
 
-- `package.json` に `skills` のスクリプトがあれば、`pnpm run skills` を実行します。入れるスキルの一覧は、このスクリプトの `-s` で表します。`pnpm install` の `postinstall` からも呼ばれるので、`pnpm install` をしたあとなら入っています。
+- `package.json` に `skills` のスクリプトがあれば、`vp run skills` を実行します。入れるスキルの一覧は、このスクリプトの `-s` で表します。`vp install` の `postinstall` からも呼ばれるので、`vp install` をしたあとなら入っています。
 - なければ、AGENTS.md にスキルを入れるコマンドがあれば、それを実行します。
 - どちらもなければ、既定の 4 つを入れます。
 
   ```sh
-  DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
+  DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
   ```
 
 conventions は、commit-msg hook が呼ぶ書式の検査器です。入れていないと、hook がコミットを止めます。
 
 入れると、実体が `.agents/skills/<スキル名>/` に置かれ、`.claude/skills/<スキル名>` からシンボリックリンクが張られます。Codex と Cursor は前者を、Claude Code は後者を読みます。同じコマンドをもう一度実行すると、最新の中身で上書きされます。これが更新です。
 
-- `npx skills` ではなく `pnpm dlx skills` を使ってください。`devEngines` で pnpm を求めるリポジトリの中では、`npx` が失敗します。pnpm がなければ、ユーザーに報告して指示を待ってください。
+- `npx skills` や `pnpm dlx skills` ではなく `vp dlx skills` を使ってください。[Vite+](https://viteplus.dev/) の `vp` がなければ、ユーザーに報告して指示を待ってください。
 - `skills experimental_install` は使わないでください。`.claude/skills` のリンクを作らないので、Claude Code からスキルが見えません。
 - 入れたら、github、japanese、turborepo の SKILL.md を `.agents/skills/<スキル名>/SKILL.md` から最後まで読んでから作業してください。
 - 入れられなければ、推測で進めず、ユーザーに報告して指示を待ってください。
@@ -54,28 +54,28 @@ skills-lock.json
 以前は、スキルをホームに入れていました。ホームとリポジトリに同じスキルがあると、どちらを読んだのかが紛らわしくなります。リポジトリの外で次を実行し、Source が philtzjp/skills のスキルが残っていないか確認してください。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills list -g
+DISABLE_TELEMETRY=1 vp dlx skills list -g
 ```
 
 残っていれば、ユーザーの許可を得てから外します。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
+DISABLE_TELEMETRY=1 vp dlx skills remove -g -y <スキル名>
 ```
 
 ## 3. 古いスキルより新しいスキルを優先する
 
 次のスキルは、philtzjp/skills で統合済みか、アーカイブ済みです。
 
-| 古いスキル | 代わりに使うスキル |
-| --- | --- |
-| commit-and-git、issue-branch-pr-flow | github |
-| japanese-writing | japanese |
-| typescript-monorepo | turborepo |
-| api-design | hono |
-| data-migration | db |
-| e2e-testing | e2etest |
-| google-analytics | analytics |
+| 古いスキル                                        | 代わりに使うスキル                                 |
+| ------------------------------------------------- | -------------------------------------------------- |
+| commit-and-git、issue-branch-pr-flow              | github                                             |
+| japanese-writing                                  | japanese                                           |
+| typescript-monorepo                               | turborepo                                          |
+| api-design                                        | hono                                               |
+| data-migration                                    | db                                                 |
+| e2e-testing                                       | e2etest                                            |
+| google-analytics                                  | analytics                                          |
 | refresh-skills、skill-selection、skill-escalation | アーカイブ済み。代わりはなく、この START.md に従う |
 
 - 古いスキルと新しいスキルが食い違ったら、新しいスキルに従ってください。
@@ -99,7 +99,7 @@ DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
 
    ```json
    {
-     "start": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a cursor -s github -s japanese -s turborepo -s conventions -y"
+     "start": "DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills -a cursor -s github -s japanese -s turborepo -s conventions -y"
    }
    ```
 
@@ -110,7 +110,7 @@ DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
 philtzjp/skills にあるスキルの一覧は次で確認できます。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills --list
+DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills --list
 ```
 
 - hono、db、e2etest、analytics、errorpage などは、実際にその作業をするときに足します。「いつか使うかもしれない」段階では入れません。ユーザーの許可を得てから、1 のコマンドに `-s <スキル名>` を足して実行してください。
@@ -132,7 +132,7 @@ DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills --list
 スキルは、リポジトリの直下で次を実行して入れます。
 
 ```sh
-DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
+DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y
 ```
 ````
 
@@ -159,8 +159,8 @@ commit-msg hook は、conventions スキルの検査器を呼び、philtzjp/.git
 
    ```sh
    curl -fsSL https://raw.githubusercontent.com/philtzjp/startingpoint/main/.vite-hooks/commit-msg -o .vite-hooks/commit-msg
-   chmod +x .vite-hooks/commit-msg
-   git config core.hooksPath .vite-hooks
+   git config --unset core.hooksPath
+   vp config
    ```
 
    hook を `.githooks/` に置いているリポジトリでは、`.vite-hooks/` に移します。参照している README や AGENTS.md の記述も直してください。lefthook のリポジトリでは、`lefthook.yaml` の commit-msg の `run` を `node .agents/skills/conventions/cli.mjs commit-msg {1}` にします。
