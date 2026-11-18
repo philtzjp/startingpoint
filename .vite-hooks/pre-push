@@ -1,2 +1,1 @@
-vp check
-vp exec fallow
+vp run verify

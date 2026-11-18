@@ -29,7 +29,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 - `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れ直すコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
 - `.gitignore`: リポジトリごとに入れたスキルをコミットしない設定
 - `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`vp install` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
-- `vite.config.ts`: [Vite+](https://viteplus.dev/) の設定。`vp check` で型、lint、整形を検査し、`vp staged` でコミットするファイルに `vp check --fix` をかけます
+- `vite.config.ts`: [Vite+](https://viteplus.dev/) の設定。`vp check` で型、lint、整形を検査し、`vp run verify` で `vp check` と fallow をまとめて実行し、`vp staged` でコミットするファイルに `vp check --fix` をかけます
 - `.fallowrc.jsonc`: [fallow](https://github.com/fallow-rs/fallow) の設定。未使用のファイル、export、依存、重複、複雑度、セキュリティの検査をすべて error にしています
 - `tsconfig.json`: strict に加え、`exactOptionalPropertyTypes` や `noUncheckedIndexedAccess` などの厳しい検査を有効にした設定
 
@@ -60,7 +60,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 ├── .vite-hooks/
 │   ├── commit-msg      # conventions スキルの検査器で、コミットメッセージを正本の規約で検査
 │   ├── pre-commit      # vp staged でコミットするファイルを検査
-│   └── pre-push        # vp check と fallow で検査
+│   └── pre-push        # vp run verify で vp check と fallow を実行
 ├── .fallowrc.jsonc     # fallow の設定
 ├── .gitignore          # リポジトリごとに入れたスキルを無視する
 ├── AGENTS.md           # START.md を読む案内と、スキルを入れ直すコマンド
