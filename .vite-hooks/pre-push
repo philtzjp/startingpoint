@@ -1,1 +1,9 @@
+GIT_DIR_PATH=$(git rev-parse --absolute-git-dir)
+if [ -n "$(git remote)" ]; then
+    if [ ! -f "$GIT_DIR_PATH/FETCH_HEAD" ] || [ -z "$(find "$GIT_DIR_PATH/FETCH_HEAD" -mmin -15)" ]; then
+        echo "リモートの状態が古い可能性があります。git fetch --prune を実行し、ブランチの乖離・遅れを確認してから push してください"
+        exit 1
+    fi
+fi
+
 vp run verify
