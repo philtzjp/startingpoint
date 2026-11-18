@@ -15,8 +15,6 @@ export default defineConfig({
           allow: [
             "oxlint-disable",
             "oxlint-enable",
-            "eslint-disable",
-            "eslint-enable",
             String.raw`fallow-ignore-(?:next-line|file) \S`,
             String.raw`@vitest-environment \S+$`,
             String.raw`v8 ignore (?:start|stop|next|file|if|else)\b`,
