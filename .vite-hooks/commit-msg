@@ -1,1 +1,6 @@
+if [ ! -f .agents/skills/conventions/cli.mjs ]; then
+    echo "書式の検査器がありません。リポジトリの直下で vp run skills を実行し、conventions スキルを入れてください"
+    exit 1
+fi
+
 vpx .agents/skills/conventions/cli.mjs commit-msg "$1"
