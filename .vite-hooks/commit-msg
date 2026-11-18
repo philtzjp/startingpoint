@@ -1,1 +1,1 @@
-node .agents/skills/conventions/cli.mjs commit-msg "$1"
+vpx .agents/skills/conventions/cli.mjs commit-msg "$1"
