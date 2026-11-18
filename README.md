@@ -51,7 +51,6 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 - 適用するライセンスや権利表示を決め、必要なら `LICENSE` を足すこと。このテンプレートは `LICENSE` を含みません
 - `vp install` を実行して git hook を有効にすること。`prepare` の `vp config` が `core.hooksPath` を設定します。clone ごとの設定なので、作業環境を作るたびに実行します
-- fallow の `production` は有効にしてあるので、テストや設定ファイルは検査の対象外です。エントリポイントが `src/index.ts` などの既定と違う場合は、`.fallowrc.jsonc` の `entry` に足すこと
 
 ## Repository Structure
 
