@@ -67,15 +67,15 @@ DISABLE_TELEMETRY=1 pnpm dlx skills remove -g -y <スキル名>
 
 次のスキルは、philtzjp/skills で統合済みか、アーカイブ済みです。
 
-| 古いスキル | 代わりに使うスキル |
-| --- | --- |
-| commit-and-git、issue-branch-pr-flow | github |
-| japanese-writing | japanese |
-| typescript-monorepo | turborepo |
-| api-design | hono |
-| data-migration | db |
-| e2e-testing | e2etest |
-| google-analytics | analytics |
+| 古いスキル                                        | 代わりに使うスキル                                 |
+| ------------------------------------------------- | -------------------------------------------------- |
+| commit-and-git、issue-branch-pr-flow              | github                                             |
+| japanese-writing                                  | japanese                                           |
+| typescript-monorepo                               | turborepo                                          |
+| api-design                                        | hono                                               |
+| data-migration                                    | db                                                 |
+| e2e-testing                                       | e2etest                                            |
+| google-analytics                                  | analytics                                          |
 | refresh-skills、skill-selection、skill-escalation | アーカイブ済み。代わりはなく、この START.md に従う |
 
 - 古いスキルと新しいスキルが食い違ったら、新しいスキルに従ってください。
