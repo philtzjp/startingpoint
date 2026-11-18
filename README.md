@@ -25,10 +25,10 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
 
 ## Features
 
-- `package.json`: スキルを入れるコマンドを `skills` に置き、`postinstall` から呼ぶ。`pnpm install` のたびにスキルが最新になる。`prepare` で `vp config` を呼び、git hook を有効にする。どちらも CI の中と `.git` のない場所では動かさない
+- `package.json`: スキルを入れるコマンドを `skills` に置き、`postinstall` から呼ぶ。`vp install` のたびにスキルが最新になる。`prepare` で `vp config` を呼び、git hook を有効にする。どちらも CI の中と `.git` のない場所では動かさない
 - `AGENTS.md`: `START.md` の正本を読む案内と、スキルを入れ直すコマンド。Claude Code は CLAUDE.md がなければ AGENTS.md を読むので、CLAUDE.md は置きません
 - `.gitignore`: リポジトリごとに入れたスキルをコミットしない設定
-- `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`pnpm install` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
+- `.vite-hooks/`: pre-commit、pre-push、commit-msg の git hook。`vp install` で有効になります。commit-msg は、conventions スキルの検査器を呼んで正本の規約で検査します
 - `vite.config.ts`: [Vite+](https://viteplus.dev/) の設定。`vp check` で型、lint、整形を検査し、`vp staged` でコミットするファイルを整形します
 - `.fallowrc.jsonc`: [fallow](https://github.com/fallow-rs/fallow) の設定。未使用のファイル、export、依存、重複、複雑度、セキュリティの検査をすべて error にしています
 - `tsconfig.json`: strict に加え、`exactOptionalPropertyTypes` や `noUncheckedIndexedAccess` などの厳しい検査を有効にした設定
@@ -50,7 +50,7 @@ https://raw.githubusercontent.com/philtzjp/startingpoint/main/START.md を curl 
   ```
 
 - 適用するライセンスや権利表示を決め、必要なら `LICENSE` を足すこと。このテンプレートは `LICENSE` を含みません
-- `pnpm install` を実行して git hook を有効にすること。`prepare` の `vp config` が `core.hooksPath` を設定します。clone ごとの設定なので、作業環境を作るたびに実行します
+- `vp install` を実行して git hook を有効にすること。`prepare` の `vp config` が `core.hooksPath` を設定します。clone ごとの設定なので、作業環境を作るたびに実行します
 - fallow の `production` は有効にしてあるので、テストや設定ファイルは検査の対象外です。エントリポイントが `src/index.ts` などの既定と違う場合は、`.fallowrc.jsonc` の `entry` に足すこと
 
 ## Repository Structure

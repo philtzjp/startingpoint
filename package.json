@@ -4,7 +4,7 @@
   "scripts": {
     "prepare": "[ -n \"$CI\" ] || [ ! -e .git ] || vp config",
     "skills": "DISABLE_TELEMETRY=1 pnpm dlx skills add philtzjp/skills -a claude-code -a codex -a cursor -s github -s japanese -s turborepo -s conventions -y",
-    "postinstall": "[ -n \"$CI\" ] || [ ! -e .git ] || pnpm run skills || true"
+    "postinstall": "[ -n \"$CI\" ] || [ ! -e .git ] || vp run skills || true"
   },
   "devDependencies": {
     "@types/node": "26.6.6",
