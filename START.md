@@ -114,6 +114,7 @@ DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills --list
 ```
 
 - hono、db、e2etest、analytics、errorpage などは、実際にその作業をするときに足します。「いつか使うかもしれない」段階では入れません。ユーザーの許可を得てから、1 のコマンドに `-s <スキル名>` を足して実行してください。
+- E2E テストは [e2e](https://e2e.com/) で書きます。書くときは `-s e2etest -s e2e` と 2 つ足してください。e2etest に Philtz の方針が、e2e に e2e の使い方が書いてあります。
 - そのリポジトリでいつも使うなら、AGENTS.md のコマンドに `-s <スキル名>` を足す PR を出します。
 - 入れたスキルを直接編集しないでください。次に入れたときに上書きされ、他のメンバーにも届きません。
 - スキルと違うやり方をとるなら、理由をユーザーに説明し、合意を得てから進めてください。
@@ -138,6 +139,7 @@ DISABLE_TELEMETRY=1 vp dlx skills add philtzjp/skills -a claude-code -a codex -a
 
 - AGENTS.md がなければ作成します。
 - CLAUDE.md は作りません。Claude Code は v2.1.277 から、CLAUDE.md がなければ AGENTS.md を読みます。
+- `e2e init` のように、ツールが CLAUDE.md を作ることがあります。中身を AGENTS.md に移してから、CLAUDE.md を削除します。
 - CLAUDE.md が AGENTS.md へのシンボリックリンクなら、削除を提案します。CLAUDE.md が別のファイルなら、Claude Code はそちらを優先して読むので、同じ案内を追記します。
 - Bedrock、Vertex、Foundry 経由の Claude Code は、まだ AGENTS.md を読みません。これらを使うメンバーがいるリポジトリでは、CLAUDE.md のリンクを残します。
 - テンプレートから写された `START.md` がリポジトリにあれば、削除を提案します。正本はこのファイルです。
